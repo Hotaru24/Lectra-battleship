@@ -25,7 +25,7 @@ const Dashboard = () => {
           return(      
             <Card className={classes.root}>
               <CardContent>
-                {`${boat.name} : ${boat.state}`}        
+                {`${boat.name} : ${boat.state} (PV: ${boat.pv})`}        
               </CardContent>
             </Card>
           )
