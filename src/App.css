@@ -1,4 +1,12 @@
 .App {
   text-align: center;
+  background-image: url(https://thumbs.dreamstime.com/b/pirates-old-parchment-treasure-map-wood-table-background-46165191.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
 }
 
+h1, h2 {
+  font-family: "Merienda", sans-serif;
+}

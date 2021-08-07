@@ -19,18 +19,18 @@ const Dashboard = () => {
   const [boatsList]  = useContext(CtxBoat);
 
   return(
-    <>
+    <div id="dashboard-body">
       <h1>Fleet </h1>
         {boatsList.map( boat => {
           return(      
             <Card className={classes.root}>
               <CardContent>
-                {`${boat.name} : ${boat.state} (PV: ${boat.pv})`}        
+                {`${boat.name} : ${boat.state} (pv: ${boat.pv})`}        
               </CardContent>
             </Card>
           )
         })}
-    </>
+    </div>
   )
 }
 

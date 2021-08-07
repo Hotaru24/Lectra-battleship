@@ -10,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { grey } from '@material-ui/core/colors';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,8 +48,12 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
+  tab: { 
+    backgroundImage : 'url(https://images.wallpaperscraft.com/image/wood_board_texture_159786_1920x1080.jpg)',
+    display: 'flex',
+    alignItems: 'center'
+    },
 }));
 
 const App = () => {
@@ -67,7 +72,7 @@ const App = () => {
       <CtxBoat.Provider value={[boatsList, setBoatsList]}>
         <div className={classes.root}>
           <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={classes.tab}>
               <Tab label="Arena" {...a11yProps(0)} />
               <Tab label="Fleet" {...a11yProps(1)} />
             </Tabs>

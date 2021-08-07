@@ -26,6 +26,7 @@ const Arena = () => {
     rearX: '',
     rearY: '',
     pv: '',
+    size: '',
     state: 'never hit'  
   });
 
@@ -47,13 +48,15 @@ const Arena = () => {
 
     if (rx === fx) { // PV calculate with the ship length
       newBoat.pv = fy - ry + 1;
+      newBoat.size = newBoat.pv;
     } else {
       newBoat.pv = fx - ry + 1;
+      newBoat.size = newBoat.pv;
     };      
 
     boatsList.map( createdBoat => { //check if area is free
       let result = false;
-      for (let i = 0; i < createdBoat.pv; i++) {
+      for (let i = 0; i < createdBoat.size; i++) {
         if( ((Number(createdBoat.frontX) === fx) && (Number(createdBoat.rearX) + i === rx) && (Number(createdBoat.rearY) === ry)) ||
             ((Number(createdBoat.frontY) === fy) && (Number(createdBoat.rearX)  === rx) && (Number(createdBoat.rearY) + i === ry)) ) {
               result = true;
@@ -105,7 +108,7 @@ const Arena = () => {
 
 
   return(
-    <div id="arena-body">
+    <div id="arena-body" >
       <div id="shipyard">
         <h2>Shipyard</h2>
         <form className={classes.root} noValidate autoComplete="off">
@@ -143,11 +146,8 @@ const Arena = () => {
               label="Position y" 
               onChange={(e) => setNewBoat({ ...newBoat, rearY: e.target.value})}/>
           </div>
-          <Button tvariant="raised" onClick={createBoat}>Build</Button>
+          <Button variant="contained" onClick={createBoat}>Build</Button>
         </form>
-      </div>
-      <div id="map">
-        <h2>Map</h2>
       </div>
       <div id="warzone">
         <h2>War Zone</h2>
