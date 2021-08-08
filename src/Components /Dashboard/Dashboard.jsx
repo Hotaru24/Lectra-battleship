@@ -24,8 +24,10 @@ const Dashboard = () => {
         {boatsList.map( boat => {
           return(      
             <Card className={classes.root}>
-              <CardContent>
-                {`${boat.name} : ${boat.state} (pv: ${boat.pv})`}        
+              <CardContent className="dashboard-cards">
+                <div id="picture"></div>
+                <span>{boat.name}</span>
+                {` : ${boat.state} (pv: ${boat.pv})`}        
               </CardContent>
             </Card>
           )

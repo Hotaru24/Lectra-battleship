@@ -1,5 +1,7 @@
 import {useState, useContext} from 'react';
 import CtxBoat from  '../CtxBoat';
+import CtxShoot from '../CtxShoot';
+import Map from '../Map/Map.jsx'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,7 +12,18 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
       width: '25ch',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },    
+  },
+  root2: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
     },
+    
   },
 }));
 
@@ -30,7 +43,7 @@ const Arena = () => {
     state: 'never hit'  
   });
 
-  const [shootsList, setShootsList]  = useState([]);
+  const [shootsList, setShootsList]  = useContext(CtxShoot);
   const [newShoot, setNewShoot] = useState({
     shootX: '',
     shootY: '',
@@ -39,10 +52,10 @@ const Arena = () => {
 
   const createBoat = async () => { 
 
-    let fx = Number(newBoat.frontX);
-    let fy = Number(newBoat.frontY);
-    let rx = Number(newBoat.rearX);
-    let ry = Number(newBoat.rearY);
+    let fx = newBoat.frontX.length > 0 ? Number(newBoat.frontX) : "";
+    let fy = newBoat.frontY.length > 0 ? Number(newBoat.frontY) : "";
+    let rx = newBoat.rearX.length > 0 ? Number(newBoat.rearX) : "";
+    let ry = newBoat.rearY.length > 0 ? Number(newBoat.rearY) : "";
     let values = (fx|| ry || fy || rx);
     let shipArea = false;
 
@@ -57,8 +70,8 @@ const Arena = () => {
     boatsList.map( createdBoat => { //check if area is free
       let result = false;
       for (let i = 0; i < createdBoat.size; i++) {
-        if( ((Number(createdBoat.frontX) === fx) && (Number(createdBoat.rearX) + i === rx) && (Number(createdBoat.rearY) === ry)) ||
-            ((Number(createdBoat.frontY) === fy) && (Number(createdBoat.rearX)  === rx) && (Number(createdBoat.rearY) + i === ry)) ) {
+        if( ((Number(createdBoat.frontY) === fy) && (Number(createdBoat.rearX) + i === rx) && (Number(createdBoat.rearY) === ry)) ||
+            ((Number(createdBoat.frontX) === fx) && (Number(createdBoat.rearX)  === rx) && (Number(createdBoat.rearY) + i === ry)) ) {
               result = true;
               shipArea = result;
               break
@@ -74,7 +87,7 @@ const Arena = () => {
     } else if(shipArea === true){ 
       alert("There is already a ship at this place !") //free area ?
     } else if(rx > fx || ry > fy){
-      alert("Rear cant be under the front !") //orientation
+      alert("Front cant be under the rear !") //orientation
     } else if (fx !== rx && fy !== ry) {
       alert("Boat cant be in diagonal !") //orientation 2
     } else {    
@@ -88,21 +101,27 @@ const Arena = () => {
     let sX = newShoot.shootX;
     let sY = newShoot.shootY;
 
-    if (shootsList.includes(newShoot)) { // check if already shoot
-      alert('area already targeted') 
+    if (newShoot.shootX.length < 1 || newShoot.shootY.length < 1){ // required input
+      alert("All the fileds must be completed !")
     } else {
-      boatsList.map(boat => {
-        if((sX === (boat.frontX && boat.rearX) && sY >= boat.rearY && sY <= boat.frontY)|| // check if there is a boat in area
-           (sY === (boat.frontY && boat.rearY) && sX >= boat.rearX && sX <= boat.frontX)){
-            return(
-            setShootsList([...shootsList, newShoot]),
-            boat.pv = Number(boat.pv) - 1,
-            Number(boat.pv) === 0 ? (alert("Sunk !"), boat.state = 'Sunk') : (alert("Hit!"), boat.state = 'Hit')        
-            )
-        } else {
-          return (alert("missed..."));          
-        }
-      })      
+      if (shootsList.includes(newShoot)) { // check if already shoot
+        alert('area already targeted') 
+      } else {
+        boatsList.map(boat => {
+          if((sX === (boat.frontX && boat.rearX) && sY >= boat.rearY && sY <= boat.frontY)|| // check if there is a boat in area
+            (sY === (boat.frontY && boat.rearY) && sX >= boat.rearX && sX <= boat.frontX)){
+              return(
+                setShootsList([...shootsList, newShoot]), 
+                boat.pv = Number(boat.pv) - 1,
+                Number(boat.pv) === 0 ? (alert("Sunk !"), boat.state = 'Sunk') : (alert("Hit!"), boat.state = 'Hit')        
+              )
+          } else {
+            return (
+              setShootsList([...shootsList, newShoot])
+            );          
+          }
+        })    
+      }
     }
   }
 
@@ -117,55 +136,52 @@ const Arena = () => {
             label="Ship name" 
             onChange={(e) => setNewBoat({ ...newBoat, name: e.target.value})}/>
           <div>
-            <p>Front</p>
+            <span>Front</span>
             <TextField 
               id="standard-basic" 
               type="number"
-              helperText="empty filed = 0"
               label="Position x" 
               onChange={(e) => setNewBoat({ ...newBoat, frontX: e.target.value})}/>
             <TextField 
               id="standard-basic" 
               type="number"
-              helperText="empty filed = 0"
               label="Position y" 
               onChange={(e) => setNewBoat({ ...newBoat, frontY: e.target.value})}/>
           </div>
           <div>
-            <p>Rear</p>
+            <span>Rear</span>
             <TextField 
               id="standard-basic"
               type="number"
-              helperText="empty filed = 0"
-               label="Position x" 
+              label="Position x" 
               onChange={(e) => setNewBoat({ ...newBoat, rearX: e.target.value})}/>
             <TextField 
               id="standard-basic"
               type="number"
-              helperText="empty filed = 0"
               label="Position y" 
               onChange={(e) => setNewBoat({ ...newBoat, rearY: e.target.value})}/>
           </div>
           <Button variant="contained" onClick={createBoat}>Build</Button>
         </form>
       </div>
+      <div id="map">
+        <Map/>
+      </div>
       <div id="warzone">
         <h2>War Zone</h2>
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root2} noValidate autoComplete="off">
             <TextField 
               id="standard-basic" 
               type="number"
-              helperText="empty filed = 0"
               label="Position x" 
               onChange={(e) => setNewShoot({ ...newShoot, shootX: e.target.value})}/>
             <TextField 
               id="standard-basic" 
               type="number"
-              helperText="empty filed = 0"
               label="Position y" 
-              onChange={(e) => setNewShoot({ ...newShoot, shootY: e.target.value})}/>
-            <Button variant="contained" onClick={shoot}>Shoot</Button>
+              onChange={(e) => setNewShoot({ ...newShoot, shootY: e.target.value})}/>            
         </form>
+        <Button variant="contained" onClick={shoot}>Shoot</Button>
       </div>
 
     </div>

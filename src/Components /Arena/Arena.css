@@ -1,21 +1,30 @@
 #arena-body {
+  margin-top: 5%;
   display: grid;
-  grid-template-rows: 70vh 30vh;
+  grid-template-columns: 40% 60%;
   grid-template-areas:
-    "shipyard"
-    "warzone";
+    "shipyard map"
+    "shipyard warzone"
 }
 
 #shipyard {
+  grid-area: shipyard;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  grid-area: shipyard;
+  margin-bottom: 10px;
+}
+
+#map{
+  grid-area: map; 
 }
 
 
 #warzone {
   grid-area: warzone; 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
+
 
