@@ -24,7 +24,7 @@ const Map = () => {
         for (let i = 0; i < boat.size; i++) {
           if(((Number(boat.frontY) === cel.y) && (Number(boat.rearX) + i === cel.x) && (Number(boat.rearY) === cel.y)) ||
              ((Number(boat.frontX) === cel.x) && (Number(boat.rearX)  === cel.x) && (Number(boat.rearY) + i === cel.y))) {
-            return (cel.color = 'saddlebrown')
+            return (cel.color = 'saddlebrown');            
           }
         }
 

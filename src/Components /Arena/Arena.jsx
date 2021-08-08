@@ -56,7 +56,6 @@ const Arena = () => {
     let fy = newBoat.frontY.length > 0 ? Number(newBoat.frontY) : "";
     let rx = newBoat.rearX.length > 0 ? Number(newBoat.rearX) : "";
     let ry = newBoat.rearY.length > 0 ? Number(newBoat.rearY) : "";
-    let values = (fx|| ry || fy || rx);
     let shipArea = false;
 
     if (rx === fx) { // PV calculate with the ship length
@@ -80,9 +79,9 @@ const Arena = () => {
       return(result = false)
     });  
 
-    if (values.length < 1 || newBoat.name.length < 1){ // required input
+    if (fx.length < 1 || fy.length < 1 || rx.length < 1 || rx.length < 1 ||newBoat.name.length < 1){ // required input
       alert("All the fileds must be completed !")
-    } else if (values > 9 || values < 0 ){ //good length
+    } else if (fx > 9 || fx < 0 || fy > 9 || fy < 0 ||rx > 9 || rx < 0 ||ry > 9 || ry < 0){ //good length
       alert("Values must be between 0 and 9 !")
     } else if(shipArea === true){ 
       alert("There is already a ship at this place !") //free area ?
@@ -103,6 +102,8 @@ const Arena = () => {
 
     if (newShoot.shootX.length < 1 || newShoot.shootY.length < 1){ // required input
       alert("All the fileds must be completed !")
+    } else if (sX > 9 || sX < 0 || sY > 9 || sY < 0 ){
+      alert("out of range of fire...")
     } else {
       if (shootsList.includes(newShoot)) { // check if already shoot
         alert('area already targeted') 
