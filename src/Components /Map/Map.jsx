@@ -25,31 +25,35 @@ const Map = () => {
           if(((Number(boat.frontY) === cel.y) && (Number(boat.rearX) + i === cel.x) && (Number(boat.rearY) === cel.y)) ||
              ((Number(boat.frontX) === cel.x) && (Number(boat.rearX)  === cel.x) && (Number(boat.rearY) + i === cel.y))) {
             return (cel.color = 'saddlebrown');            
-          }
+          } 
         }
-
+        return null
       })
+      return null
     })
 
     shootsList.map(shoot => { // add shoots from shootsList to the map
       gridData.map(cel => {
           if(((Number(shoot.shootY) === cel.y) && (Number(shoot.shootX) === cel.x))) {
             return (cel.color = 'red')
-          }
+          } 
+        return null  
       })
+      return null
     })
 
     setGridMap(gridData);
     gridData = []; //clean gridData 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boatsList, shootsList]);
 
 
   return (
     <div id="map-body">
       <div id="grid-map">
-        {gridMap.map((cel) => {
+        {gridMap.map((cel, index) => {
           return(
-            <div className="grid-item" style={{backgroundColor: cel.color }}></div>
+            <div className="grid-item" style={{backgroundColor: cel.color }} key={index}></div>
           )
         })}
       </div>

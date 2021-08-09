@@ -102,7 +102,7 @@ const Arena = () => {
 
     if (newShoot.shootX.length < 1 || newShoot.shootY.length < 1){ // required input
       alert("All the fileds must be completed !")
-    } else if (sX > 9 || sX < 0 || sY > 9 || sY < 0 ){
+    } else if (sX > 9 || sX < 0 || sY > 9 || sY < 0 ){ 
       alert("out of range of fire...")
     } else {
       if (shootsList.includes(newShoot)) { // check if already shoot
@@ -111,11 +111,11 @@ const Arena = () => {
         boatsList.map(boat => {
           if((sX === (boat.frontX && boat.rearX) && sY >= boat.rearY && sY <= boat.frontY)|| // check if there is a boat in area
             (sY === (boat.frontY && boat.rearY) && sX >= boat.rearX && sX <= boat.frontX)){
-              return(
+              return((
                 setShootsList([...shootsList, newShoot]), 
                 boat.pv = Number(boat.pv) - 1,
-                Number(boat.pv) === 0 ? (alert("Sunk !"), boat.state = 'Sunk') : (alert("Hit!"), boat.state = 'Hit')        
-              )
+                Number(boat.pv) === 0 ? ((alert("Sunk !"), boat.state = 'Sunk')) : (alert("Hit!"), boat.state = 'Hit')        
+              ))
           } else {
             return (
               setShootsList([...shootsList, newShoot])

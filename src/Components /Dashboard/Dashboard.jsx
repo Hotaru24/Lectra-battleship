@@ -21,9 +21,9 @@ const Dashboard = () => {
   return(
     <div id="dashboard-body">
       <h1>Fleet </h1>
-        {boatsList.map( boat => {
+        {boatsList.map( (boat, index) => {
           return(      
-            <Card className={classes.root}>
+            <Card className={classes.root} key={index}>
               <CardContent className="dashboard-cards">
                 <div id="picture"></div>
                 <span>{boat.name}</span>
